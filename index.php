@@ -1,6 +1,10 @@
 <?php require 'dbconn.php'; 
 $sql = "SELECT * FROM news";
 $posts = $db->query($sql);
+
+// Start session to check if they are logged in
+session_start();
+
 ?>
 <!doctype html>
 <html>
@@ -10,6 +14,17 @@ $posts = $db->query($sql);
 </head>
 
 <body>
+<?php
+// if Session variable "email" is found the user is logged in
+// and can see the logout link
+if ($_SESSION){
+if (!$_SESSION['email']){
+	echo "<a href='login.php' title='Login'>Login</a>";
+} else {
+	echo "<a href='logout.php' title='Logout'>Logout</a>";
+}
+}
+	?>
 <table>
 	<tr>
     	<th>Post</th><th>Date</th>
@@ -18,7 +33,16 @@ $posts = $db->query($sql);
 	<tr>
     	<td><?php echo $post['post']; ?></td>
         <td><?php echo $post['date']; ?></td>
-        <td><a href="deleteNews.php?delete=maybe&id=<?php echo $post['id']; ?>" title="DELETE">Delete</a></td>
+        <?php 
+		// if Session variable "email" is found the user is logged in
+		// and can see the delete link
+		if ($_SESSION){
+		if (!$_SESSION['email']){
+		} else {
+			echo"<td><a href='deleteNews.php?delete=maybe&id='".$post['id']."'>' title='DELETE'>Delete</a></td>";
+		}
+		}
+		?>
     </tr>
     <?php endforeach; ?>
 </table>
