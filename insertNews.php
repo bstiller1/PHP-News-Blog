@@ -1,8 +1,10 @@
 <?php
 // set $message variable to " "
 $message = " ";
+// set timezone to EST
+date_default_timezone_set('US/Eastern');
 // set date variable to mm/dd/yyyy
-$date = date('m/d/Y');
+$date = date('m/d/Y h:m:s');
 // Check to see that the form was posted before checking variables
 if($_POST){
 // check to see if anything was posted
@@ -20,10 +22,10 @@ if(empty($_POST['post'])){
 	require 'dbconn.php';
 	// SQL query in the $sql variable
 	$sql = "INSERT INTO news (id, post, date) VALUES ('', '$post', '$date')";
-	// Redirect to the homepage to see entries
-	header( 'Location: index.php');
 	// execute SQL query
 	$db->query($sql);
+	// Redirect to the homepage to see entries
+	header( 'Location: index.php');
 	} 
 	// catch the Exception if it could not query the DB
 	catch (Exception $e){

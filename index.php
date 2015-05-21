@@ -1,5 +1,5 @@
 <?php require 'dbconn.php'; 
-$sql = "SELECT post, date FROM news";
+$sql = "SELECT * FROM news";
 $posts = $db->query($sql);
 ?>
 <!doctype html>
@@ -18,6 +18,7 @@ $posts = $db->query($sql);
 	<tr>
     	<td><?php echo $post['post']; ?></td>
         <td><?php echo $post['date']; ?></td>
+        <td><a href="deleteNews.php?delete=maybe&id=<?php echo $post['id']; ?>" title="DELETE">Delete</a></td>
     </tr>
     <?php endforeach; ?>
 </table>
