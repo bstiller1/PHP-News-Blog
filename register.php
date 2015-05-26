@@ -64,15 +64,15 @@ $domain = explode("@", $email);
 	} //end email check
 // check password
 if($_POST['pass']){
-	$valid = true;
+$valid = true;
 $pass = $_POST['pass'];	
 } else {
-	$valid = false;
-		$message .= "Please enter a password.<br />";
+$valid = false;
+$message .= "Please enter a password.<br />";
 } // pass check
 // check confirm password
 if ($_POST['pass2']){
-	$valid = true;
+$valid = true;
 $pass2 = $_POST['pass2'];
 	// Check to see that the passwords match
 	  if ($pass != $pass2){
@@ -87,7 +87,24 @@ $pass2 = $_POST['pass2'];
 	$valid = false;
 	$message .= "Please confirm your password.<br />";
 } // end pass2 check
-
+if($valid){
+	// try to query the DB
+		try{
+		// Check to see if that Email Address exists in our DB
+			$sql = "INSERT INTO users (id, email, password, fname, lname) VALUES ('', '$email', '$encpass', '$fname', '$lname'";
+		// execute SQL query
+		$row = $db->prepare($sql);
+		$row->execute();
+		// Count results, if found $count == 1
+		$count = $row->rowCount();
+		// echo $count;
+		} 
+		// catch the Exception if it could not query the DB
+		catch (Exception $e){
+		// Display an error message as well as the system generated error
+		$message .= "There was an error checking the DB for the Email Address: " . $e->getMessage();	
+		} // end try catch
+}
 
 }
 
