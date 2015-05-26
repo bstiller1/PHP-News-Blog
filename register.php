@@ -88,21 +88,21 @@ $pass2 = $_POST['pass2'];
 	$message .= "Please confirm your password.<br />";
 } // end pass2 check
 if($valid){
+	//echo $email, $encPass, $fname, $lname;
 	// try to query the DB
 		try{
 		// Check to see if that Email Address exists in our DB
-			$sql = "INSERT INTO users (id, email, password, fname, lname) VALUES ('', '$email', '$encpass', '$fname', '$lname'";
+			$sql = "INSERT INTO users (id, email, password, fname, lname) VALUES ('', '$email', '$encPass', '$fname', '$lname')";
 		// execute SQL query
 		$row = $db->prepare($sql);
 		$row->execute();
-		// Count results, if found $count == 1
-		$count = $row->rowCount();
-		// echo $count;
+		// let user know that the info was inserted into the DB
+		$message .= "Account registered.<br />";
 		} 
 		// catch the Exception if it could not query the DB
 		catch (Exception $e){
 		// Display an error message as well as the system generated error
-		$message .= "There was an error checking the DB for the Email Address: " . $e->getMessage();	
+		$message .= "There was an error registering account: " . $e->getMessage();	
 		} // end try catch
 }
 
