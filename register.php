@@ -1,75 +1,94 @@
 <?php
 include 'errors.php';
 $message = " ";
+$valid = false;
 // Check to see if form was submitted via POST
 if($_POST){
 // Check for fname
 if($_POST['fname']){
 $fname = $_POST['fname'];	
+$valid = true;
 } else {
+	$valid = false;
 	$message .= "First Name is required.<br />";
-}
+} // end fname check
 // Check for lname
 if($_POST['lname']){
-$lname = $_POST['lname'];	
+$lname = $_POST['lname'];
+$valid = true;	
 } else {
+	$valid = false;
 	$message .= "Last Name is required.<br />";
-}
+}// end lname check
 // check for email
 if($_POST['email']){
-$email = $_POST['email'];	
-	// split the email address in to 2 array elements called $domain[]
-	$domain = explode("@", $email);
+$email = $_POST['email'];
+$valid = true;	
+// split the email address in to 2 array elements called $domain[]
+$domain = explode("@", $email);
 	// check the second piece of the $domain[1] array for the
 	// domain to see if that web server has mail exchange records
 	if(getmxrr($domain[1], $mxhosts) == FALSE){
-		$message .= "That Email Address is not valid.<br />"; 
+		$message .= "That Email Address is not valid.<br />";
+		$valid = false; 
 	} else {
-    // The Email Address exists
-    // try to query the DB
-	try{
-	// bring in the DB connection
-	require 'dbconn.php';
-    // Check to see if that Email Address exists in our DB
-	  	$sql = "SELECT * FROM users WHERE email = '$email'";
-	// execute SQL query
-	$row = $db->prepare($sql);
-	$row->execute();
-	// Count results, if found $count == 1
-	$count = $row->rowCount();
-	// echo $count;
-	} 
-	// catch the Exception if it could not query the DB
-	catch (Exception $e){
-	// Display an error message as well as the system generated error
-	$message .= "There was an error checking the DB for the Email Address: " . $e->getMessage();	
-	} 	    // Email Address exists in the DB
-			if ($count == 1){
-				$message = "That Email Address already exists in our database.";
-			}
+		$valid = true;
+    	// The Email Address exists
+    	// try to query the DB
+		try{
+		// bring in the DB connection
+		require 'dbconn.php';
+		// Check to see if that Email Address exists in our DB
+			$sql = "SELECT * FROM users WHERE email = '$email'";
+		// execute SQL query
+		$row = $db->prepare($sql);
+		$row->execute();
+		// Count results, if found $count == 1
+		$count = $row->rowCount();
+		// echo $count;
+		} 
+		// catch the Exception if it could not query the DB
+		catch (Exception $e){
+		// Display an error message as well as the system generated error
+		$message .= "There was an error checking the DB for the Email Address: " . $e->getMessage();	
+		} // end try catch
+ // Email Address exists in the DB
+		if ($count == 1){
+			$valid = false;
+			$message = "That Email Address already exists in our database.";
+		}
 		} // end getmxrr
 	} else {
+		$valid = false;
 		$message .= "Email Address is required.<br />";
-	}
+	} //end email check
 // check password
 if($_POST['pass']){
+	$valid = true;
 $pass = $_POST['pass'];	
-}
-// check confirm password
-else if ($_POST['pass2']){
-$pass2 = $_POST['pass2'];
-// Check to see that the passwords match
-  if ($pass != $pass2){
-	$message .= "The passwords do not match.";  
-  } else {
-	  // Encrypt Password
-	$encPass = md5($pass); 
-	echo $encPass;
-
-  } // end if
 } else {
+	$valid = false;
+		$message .= "Please enter a password.<br />";
+} // pass check
+// check confirm password
+if ($_POST['pass2']){
+	$valid = true;
+$pass2 = $_POST['pass2'];
+	// Check to see that the passwords match
+	  if ($pass != $pass2){
+		  $valid = false;
+		$message .= "The passwords do not match.";  
+	  } else {
+		  $valid = true;
+		  // Encrypt Password
+		$encPass = md5($pass); 
+	  } // end password match
+} else {
+	$valid = false;
 	$message .= "Please confirm your password.<br />";
-}
+} // end pass2 check
+
+
 }
 
 ?>
