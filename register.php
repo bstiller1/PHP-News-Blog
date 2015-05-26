@@ -24,7 +24,6 @@ $email = $_POST['email'];
 	// domain to see if that web server has mail exchange records
 	if(getmxrr($domain[1], $mxhosts) == FALSE){
 		$message .= "That Email Address is not valid.<br />"; 
-		$message .= "Go <a href='javascript:history.go(-1);' title='Back'>back</a> and try again."; 
 	} else {
     // The Email Address exists
     // try to query the DB
@@ -65,6 +64,7 @@ $pass2 = $_POST['pass2'];
   } else {
 	  // Encrypt Password
 	$encPass = md5($pass); 
+	echo $encPass;
 
   } // end if
 } else {
