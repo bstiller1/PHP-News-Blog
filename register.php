@@ -1,17 +1,21 @@
 <?php
 include 'errors.php';
 $message = " ";
+// Check to see if form was submitted via POST
 if($_POST){
+// Check for fname
 if($_POST['fname']){
 $fname = $_POST['fname'];	
 } else {
 	$message .= "First Name is required.<br />";
 }
+// Check for lname
 if($_POST['lname']){
 $lname = $_POST['lname'];	
 } else {
 	$message .= "Last Name is required.<br />";
 }
+// check for email
 if($_POST['email']){
 $email = $_POST['email'];	
 	// split the email address in to 2 array elements called $domain[]
@@ -22,17 +26,17 @@ $email = $_POST['email'];
 		$message .= "That Email Address is not valid.<br />"; 
 		$message .= "Go <a href='javascript:history.go(-1);' title='Back'>back</a> and try again."; 
 	} else {
-		  // try to query the DB
+    // The Email Address exists
+    // try to query the DB
 	try{
 	// bring in the DB connection
 	require 'dbconn.php';
-	  // The Email Address exists.
-	  // Check to see if that Email Address exist in our DB
+    // Check to see if that Email Address exists in our DB
 	  	$sql = "SELECT * FROM users WHERE email = '$email'";
 	// execute SQL query
 	$row = $db->prepare($sql);
 	$row->execute();
-	// Count results, if found $count = 1
+	// Count results, if found $count == 1
 	$count = $row->rowCount();
 	// echo $count;
 	} 
@@ -40,18 +44,19 @@ $email = $_POST['email'];
 	catch (Exception $e){
 	// Display an error message as well as the system generated error
 	$message .= "There was an error checking the DB for the Email Address: " . $e->getMessage();	
-	$message .= "Go <a href='javascript:history.go(-1);' title='Back'>back</a> and try again."; 
-	} 	
+	} 	    // Email Address exists in the DB
 			if ($count == 1){
-				$message = "That Email Address already exists.";
+				$message = "That Email Address already exists in our database.";
 			}
-		}
+		} // end getmxrr
 	} else {
 		$message .= "Email Address is required.<br />";
 	}
+// check password
 if($_POST['pass']){
 $pass = $_POST['pass'];	
 }
+// check confirm password
 else if ($_POST['pass2']){
 $pass2 = $_POST['pass2'];
 // Check to see that the passwords match
@@ -59,11 +64,11 @@ $pass2 = $_POST['pass2'];
 	$message .= "The passwords do not match.";  
   } else {
 	  // Encrypt Password
-	$encPass = $md5($pass); 
+	$encPass = md5($pass); 
 
   } // end if
 } else {
-	$message .= "Password is required.<br />";
+	$message .= "Please confirm your password.<br />";
 }
 }
 
