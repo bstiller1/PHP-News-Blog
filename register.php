@@ -32,7 +32,6 @@ $domain = explode("@", $email);
 		$message .= "That Email Address is not valid.<br />";
 		$valid = false; 
 	} else {
-		$valid = true;
     	// The Email Address exists
     	// try to query the DB
 		try{
@@ -104,7 +103,7 @@ if($valid){
 		// Display an error message as well as the system generated error
 		$message .= "There was an error registering account: " . $e->getMessage();	
 		} // end try catch
-}
+} // end $valid check
 
 }
 
