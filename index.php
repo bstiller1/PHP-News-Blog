@@ -18,7 +18,7 @@ session_start();
 // if Session variable "email" is found the user is logged in
 // and can see the logout link
 if ($_SESSION){
-if (!$_SESSION['email']){
+if (@!$_SESSION['email']){
 	echo "<a href='login.php' title='Login'>Login</a>";
 } else {
 	echo "<a href='logout.php' title='Logout'>Logout</a>";
@@ -37,7 +37,7 @@ if (!$_SESSION['email']){
 		// if Session variable "email" is found the user is logged in
 		// and can see the delete link
 		if ($_SESSION){
-		if (!$_SESSION['email']){
+		if (@!$_SESSION['email']){
 		} else {
 			echo"<td><a href='deleteNews.php?delete=maybe&id='".$post['id']."'>' title='DELETE'>Delete</a></td>";
 		}
