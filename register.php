@@ -6,7 +6,7 @@ $valid = false;
 if($_POST){
 // Check for fname
 if($_POST['fname']){
-$fname = $_POST['fname'];	
+$fname = $_POST['fname'];
 $valid = true;
 } else {
 	$valid = false;
@@ -52,7 +52,7 @@ $domain = explode("@", $email);
 		$message .= "There was an error checking the DB for the Email Address: " . $e->getMessage();	
 		} // end try catch
  // Email Address exists in the DB
-		if ($count == 1){
+		if ($count != 0){
 			$valid = false;
 			$message = "That Email Address already exists in our database.";
 		}
@@ -64,7 +64,7 @@ $domain = explode("@", $email);
 // check password
 if($_POST['pass']){
 $valid = true;
-$pass = $_POST['pass'];	
+$pass = $_POST['pass'];
 } else {
 $valid = false;
 $message .= "Please enter a password.<br />";
@@ -86,7 +86,7 @@ $pass2 = $_POST['pass2'];
 	$valid = false;
 	$message .= "Please confirm your password.<br />";
 } // end pass2 check
-if($valid){
+if($valid && $count == 0){
 	//echo $email, $encPass, $fname, $lname;
 	// try to query the DB
 		try{
