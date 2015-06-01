@@ -42,7 +42,7 @@ if (!$_SESSION){
 		if ($_SESSION){
 		if (@!$_SESSION['email']){
 		} else {
-			echo"<td><a href='deleteNews.php?delete=maybe&id=".$post['id']."'  title='DELETE'>Delete</a></td>";
+			echo "<td><a href='deleteNews.php?delete=maybe&id=".$post['id']."'  title='DELETE'>Delete</a></td>";
 		}
 		}
 		?>
