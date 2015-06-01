@@ -23,6 +23,9 @@ if (@!$_SESSION['email']){
 } else {
 	echo "<a href='logout.php' title='Logout'>Logout</a>";
 }
+} 
+if (!$_SESSION){
+	echo "<a href='login.php' title='Login'>Login</a>";
 }
 	?>
 <table>
@@ -39,13 +42,21 @@ if (@!$_SESSION['email']){
 		if ($_SESSION){
 		if (@!$_SESSION['email']){
 		} else {
-			echo"<td><a href='deleteNews.php?delete=maybe&id='".$post['id']."'>' title='DELETE'>Delete</a></td>";
+			echo"<td><a href='deleteNews.php?delete=maybe&id=".$post['id']."'  title='DELETE'>Delete</a></td>";
 		}
 		}
 		?>
     </tr>
     <?php endforeach; ?>
 </table>
-<p>Add a News post: <a href="insertNews.php" title="Add">Add</a></p>
+<?php
+// if Session variable "email" is found the user is logged in
+// and can see the Add News link
+if ($_SESSION){
+if (@$_SESSION['email']){
+	echo "<p>Add a News post: <a href='insertNews.php' title='Add'>Add</a></p>";
+}
+}
+?>
 </body>
 </html>

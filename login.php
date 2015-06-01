@@ -40,8 +40,16 @@ if($_POST){
          // User Authenticated in the DB
 		if ($count != 0){
 			echo "You are logged in.";
+			// Start Session to set Session Variables
+			// and Cookies
+			session_start();
+			$_SESSION['email'] = $email;
+		// send user back to home
+		//header("Location:index.php");
+		$message .= "<a href='index.php' title='Home'>News Blog Home</a>";
 		} else {
 			echo "Please register";
+			$message .= "<a href='register.php' title='Register'>Register for a login</a>";
 		}
 		
 	} // end valid
