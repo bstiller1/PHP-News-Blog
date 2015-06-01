@@ -15,6 +15,7 @@ session_start();
 
 <body>
 <?php
+
 // if Session variable "email" is found the user is logged in
 // and can see the logout link
 if ($_SESSION){
@@ -24,6 +25,7 @@ if (@!$_SESSION['email']){
 	echo "<a href='logout.php' title='Logout'>Logout</a>";
 }
 } 
+// If no SESSION is found at all display "Login" link
 if (!$_SESSION){
 	echo "<a href='login.php' title='Login'>Login</a>";
 }

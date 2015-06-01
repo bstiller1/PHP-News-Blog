@@ -64,7 +64,7 @@ $domain = explode("@", $email);
 // check password
 if($_POST['pass']){
 $valid = true;
-$pass = $_POST['pass'];
+$password = $_POST['pass'];
 } else {
 $valid = false;
 $message .= "Please enter a password.<br />";
@@ -74,13 +74,13 @@ if ($_POST['pass2']){
 $valid = true;
 $pass2 = $_POST['pass2'];
 	// Check to see that the passwords match
-	  if ($pass != $pass2){
+	  if ($password != $pass2){
 		  $valid = false;
 		$message .= "The passwords do not match.";  
 	  } else {
 		  $valid = true;
 		  // Encrypt Password
-		$encPass = md5($pass); 
+		$encPass = md5($password); 
 	  } // end password match
 } else {
 	$valid = false;
@@ -96,7 +96,7 @@ if($valid && $count == 0){
 		$row = $db->prepare($sql);
 		$row->execute();
 		// let user know that the info was inserted into the DB
-		$message .= "Account registered.<br />";
+		$message .= "Account registered.<br /><a href='index.php' title='Home'>News Blog Home</a>";
 		} 
 		// catch the Exception if it could not query the DB
 		catch (Exception $e){

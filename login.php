@@ -10,7 +10,7 @@ if($_POST){
 	$message = "You did not submit your Email Address.";
 	}
 	if(isset($_POST['password'])){
-	$pass = $_POST['password'];
+	$password = $_POST['password'];
 	$valid = true;
 	} else {
 	$valid = false;
@@ -22,7 +22,7 @@ if($_POST){
 		// bring in the DB connection
 		require 'dbconn.php';
 		// encrypt password for validation
-		$md5pass=md5($pass);
+		$md5pass=md5($password);
 		// Check to see if that Email Address exists in our DB
 			$sql = "SELECT email, password FROM users WHERE email = '$email' AND password = '$md5pass';";
 		// execute SQL query
@@ -31,6 +31,7 @@ if($_POST){
 		// Count results, if found $count == 1
 		$count = $row->rowCount();
 		// echo $count;
+		
 		} 
 		// catch the Exception if it could not query the DB
 		catch (Exception $e){
@@ -39,7 +40,7 @@ if($_POST){
 		} // end try catch
          // User Authenticated in the DB
 		if ($count != 0){
-			echo "You are logged in.";
+			echo "You are logged in.<br />";
 			// Start Session to set Session Variables
 			// and Cookies
 			session_start();
