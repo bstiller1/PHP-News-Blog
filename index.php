@@ -33,23 +33,38 @@ if (!$_SESSION){
 <table>
 	<tr>
     	<th>Post</th><th>Date</th>
-    </tr>
-    <?php foreach($posts as $post) : ?>
-	<tr>
-    	<td><?php echo $post['post']; ?></td>
-        <td><?php echo $post['date']; ?></td>
-        <?php 
+        <?php
 		// if Session variable "email" is found the user is logged in
-		// and can see the delete link
-		if ($_SESSION){
-		if (@!$_SESSION['email']){
-		} else {
-			echo "<td><a href='deleteNews.php?delete=maybe&id=".$post['id']."'  title='DELETE'>Delete</a></td>";
-		}
-		}
+		// and can see the edit and delete link
+        if ($_SESSION){
+		if (@$_SESSION['email']){
+		echo "<th>Edit</th><th>Delete</th>";	
+   		echo "</tr>\n";
+	// if editing posts
+	if(@$_GET['edit'] == "yes"){
+	
+	} else { // not editing posts just logged in
+	foreach($posts as $post):
+	echo "<tr>\n";
+	echo "<td>".$post['post']."</td>\n";
+	echo "<td>".$post['date']. "</td>\n";   
+	echo "<td><a href='index.php?edit=yes&id=".$post['id']."'  title='Edit'>Edit</a></td>\n";
+			echo "<td><a href='deleteNews.php?delete=maybe&id=".$post['id']."'  title='DELETE'>Delete</a></td>\n";
+		endforeach;
+		} // end else	
+   } // end email check 
+} // end session check
+// if they are not logged in show data in read only
+if(!@$_SESSION['email']){
+	foreach($posts as $post){
+	echo "<tr>\n";
+	echo "<td>".$post['post']."</td>\n";
+	echo "<td>".$post['date']. "</td>\n";
+	}
+   }
 		?>
     </tr>
-    <?php endforeach; ?>
+ 
 </table>
 <?php
 // if Session variable "email" is found the user is logged in
