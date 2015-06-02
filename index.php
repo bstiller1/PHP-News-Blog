@@ -37,12 +37,20 @@ if (!$_SESSION){
 		// if Session variable "email" is found the user is logged in
 		// and can see the edit and delete link
         if ($_SESSION){
-		if (@$_SESSION['email']){
+		if (@$_SESSION['email'] && !@$_SESSION['edit']){
 		echo "<th>Edit</th><th>Delete</th>";	
    		echo "</tr>\n";
 	// if editing posts
-	if(@$_GET['edit'] == "yes"){
-	
+	if(@$_GET['edit']){
+		echo "<th>Commit</th>";
+		echo "</tr>\n";
+	// add text fields with data from DB
+	foreach($posts as $post):
+	echo "<tr>\n";
+	echo "<td><input type='text' name='edited' value='".$post['post']."'/></td>\n";
+	echo "<td><input type='text' name='date' value='".$post['date']. "'/></td>\n";   
+	echo "<td><a href='javascript:editform.submit();' title='Commit'>Commit</a></td>\n";
+		endforeach;
 	} else { // not editing posts just logged in
 	foreach($posts as $post):
 	echo "<tr>\n";
