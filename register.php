@@ -91,7 +91,7 @@ if($valid && $count == 0){
 	// try to query the DB
 		try{
 		// Check to see if that Email Address exists in our DB
-			$sql = "INSERT INTO users (id, email, password, fname, lname) VALUES ('', '$email', '$encPass', '$fname', '$lname')";
+			$sql = "INSERT INTO users (id, email, password, fname, lname, group) VALUES ('', '$email', '$encPass', '$fname', '$lname', 'user')";
 		// execute SQL query
 		$row = $db->prepare($sql);
 		$row->execute();

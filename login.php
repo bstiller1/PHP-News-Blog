@@ -40,11 +40,21 @@ if($_POST){
 		} // end try catch
          // User Authenticated in the DB
 		if ($count != 0){
-			echo "You are logged in.<br />";
+			// Check to see what the user level access is in the DB 
+			// for this user, using their email to identify them
+			$grpchk = "SELECT * FROM users WHERE email = '$email';";
+		// execute SQL query
+		$usrgrp = $db->query($grpchk);
+		foreach($usrgrp as $usr){
+		$level = $usr['group'];
+		}
+			echo "<br />You are logged in.<br />";
 			// Start Session to set Session Variables
 			// and Cookies
 			session_start();
+			$_SESSION['group'] = $level;
 			$_SESSION['email'] = $email;
+			
 		// send user back to home
 		//header("Location:index.php");
 		$message .= "<a href='index.php' title='Home'>News Blog Home</a>";

@@ -1,4 +1,6 @@
-<?php require 'dbconn.php'; 
+<?php 
+include 'errors.php';
+require 'dbconn.php'; 
 $sql = "SELECT * FROM news ORDER BY date";
 $posts = $db->query($sql);
 
@@ -60,12 +62,11 @@ if (!$_SESSION){
 		// if Session variable "email" is found the user is logged in
 		// and can see the edit and delete link
         if ($_SESSION){
-		if (@$_SESSION['email']){
+		if (@$_SESSION['email'] && @$_SESSION['group'] == 'admin'){
 		echo "<th>Edit</th><th>Delete</th>";	
    		echo "</tr>\n";
 	// if editing posts
-	if(@$_GET['edit'] == 'yes'){
-		echo "<th>Commit</th>";
+	if(@$_GET['edit'] == 'yes' && @$_SESSION['group'] == 'admin'){
 		echo "</tr>\n";
 	// add text fields with data from DB
 	foreach($posts as $post):
@@ -89,25 +90,25 @@ if (!$_SESSION){
    } // end email check 
 } // end session check
 // if they are not logged in show data in read only
-if(!@$_SESSION['email']){
+if(!@$_SESSION['email'] || @$_SESSION['group'] == 'user'){
 	foreach($posts as $post){
 	echo "<tr>\n";
 	echo "<td>".$post['post']."</td>\n";
 	echo "<td>".$post['date']. "</td>\n";
 	}
    }
+   
+   echo "<br />";
+			echo $_SESSION['email'];
+			echo "<br />";
+			echo $_SESSION['group'];
+			echo "<br />";
 		?>
     </tr>
 </table>
 
-<?php
-// if Session variable "email" is found the user is logged in
-// and can see the Add News link
-if ($_SESSION){
-if (@$_SESSION['email']){
-	echo "<p>Add a News post: <a href='insertNews.php' title='Add'>Add</a></p>";
-}
-}
-?>
+
+<p>Add a News post: <a href='insertNews.php' title='Add'>Add</a></p>
+
 </body>
 </html>
